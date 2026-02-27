@@ -1,0 +1,148 @@
+:root {
+  --font-sans: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, 'Helvetica Neue', Arial, sans-serif;
+
+  /* AOT Theme Colors - Dark, moody, crimson accents */
+  --bg-main: #0f1115;
+  --bg-card: rgba(20, 24, 30, 0.7);
+  /* Glassmorphism background */
+
+  --text-primary: #e2e8f0;
+  --text-secondary: #94a3b8;
+  --text-muted: #64748b;
+
+  --border-light: rgba(255, 255, 255, 0.1);
+
+  --primary: #991b1b;
+  /* Crimson red */
+  --primary-hover: #b91c1c;
+
+  --shadow-sm: 0 4px 6px rgba(0, 0, 0, 0.5);
+  --shadow-md: 0 10px 15px rgba(0, 0, 0, 0.6);
+
+  --radius-md: 0.5rem;
+  --radius-lg: 0.75rem;
+
+  font-family: var(--font-sans);
+  font-synthesis: none;
+  text-rendering: optimizeLegibility;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+
+* {
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+}
+
+body {
+  background-color: var(--bg-main);
+  background-image: url('/assets/aot_bg.png');
+  background-size: cover;
+  background-position: center;
+  background-attachment: fixed;
+  color: var(--text-primary);
+  line-height: 1.5;
+  min-height: 100vh;
+}
+
+/* Base utility classes */
+.container {
+  width: 100%;
+  max-width: 1200px;
+  margin: 0 auto;
+  padding: 0 1.5rem;
+}
+
+input {
+  font-family: inherit;
+  font-size: 1rem;
+}
+
+button {
+  cursor: pointer;
+  font-family: inherit;
+}
+
+/* Anime Gallery Styles */
+.anime-gallery {
+  margin-top: 1rem;
+  padding: 1rem 0;
+}
+
+.section-title {
+  font-size: 1.5rem;
+  font-weight: 600;
+  color: var(--text-primary);
+  margin-bottom: 1.5rem;
+}
+
+.image-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+  gap: 1.5rem;
+}
+
+.image-card {
+  transition: transform 0.3s ease, box-shadow 0.3s ease;
+  cursor: pointer;
+}
+
+.image-card:hover {
+  transform: translateY(-5px);
+  box-shadow: 0 10px 15px -3px rgb(0 0 0 / 0.1), 0 4px 6px -4px rgb(0 0 0 / 0.1);
+}
+
+.image-wrapper {
+  position: relative;
+  width: 100%;
+  padding-top: 75%;
+  /* 4:3 Aspect Ratio */
+  overflow: hidden;
+  border-radius: calc(var(--radius-lg) - 1px);
+}
+
+.gallery-image {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  transition: transform 0.5s ease;
+}
+
+.image-card:hover .gallery-image {
+  transform: scale(1.05);
+}
+
+.image-overlay {
+  position: absolute;
+  bottom: 0;
+  left: 0;
+  width: 100%;
+  padding: 1.5rem;
+  background: linear-gradient(to top, rgba(0, 0, 0, 0.8) 0%, rgba(0, 0, 0, 0) 100%);
+  color: white;
+  opacity: 0;
+  transform: translateY(20px);
+  transition: opacity 0.3s ease, transform 0.3s ease;
+}
+
+.image-card:hover .image-overlay {
+  opacity: 1;
+  transform: translateY(0);
+}
+
+.image-overlay h3 {
+  font-size: 1.125rem;
+  font-weight: 600;
+  margin-bottom: 0.25rem;
+  color: #f8fafc;
+}
+
+.image-overlay p {
+  font-size: 0.875rem;
+  color: #cbd5e1;
+  line-height: 1.4;
+}
