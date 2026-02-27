@@ -2,57 +2,69 @@ import { Card, CardHeader, CardTitle, CardContent } from './ui/Card';
 import { AreaChart, Area, XAxis, YAxis, CartesianGrid, Tooltip, ResponsiveContainer } from 'recharts';
 
 const dummyData = [
-    { name: 'Mon', threat: 4 },
-    { name: 'Tue', threat: 3 },
-    { name: 'Wed', threat: 12 },
-    { name: 'Thu', threat: 7 },
-    { name: 'Fri', threat: 18 },
-    { name: 'Sat', threat: 23 },
-    { name: 'Sun', threat: 34 },
+    { name: 'Mon', risk: 4000 },
+    { name: 'Tue', risk: 3000 },
+    { name: 'Wed', risk: 2000 },
+    { name: 'Thu', risk: 2780 },
+    { name: 'Fri', risk: 1890 },
+    { name: 'Sat', risk: 2390 },
+    { name: 'Sun', risk: 3490 },
 ];
 
 export function VisualizationPanel() {
     return (
         <Card>
             <CardHeader>
-                <CardTitle>Titan Activity Grid (Weekly)</CardTitle>
+                <CardTitle>Data Visualization</CardTitle>
             </CardHeader>
             <CardContent>
-                <div style={{ width: '100%', height: '300px', marginTop: '1rem' }}>
+                <div style={{ width: '100%', height: '350px', marginTop: '1.5rem' }}>
                     <ResponsiveContainer width="100%" height="100%">
                         <AreaChart
                             data={dummyData}
                             margin={{
                                 top: 10,
                                 right: 10,
-                                left: 0,
+                                left: -20, // Tightly hug the left side since the axis line is hidden
                                 bottom: 0,
                             }}
                         >
                             <defs>
                                 <linearGradient id="colorRisk" x1="0" y1="0" x2="0" y2="1">
-                                    <stop offset="5%" stopColor="var(--primary)" stopOpacity={0.6} />
+                                    <stop offset="5%" stopColor="var(--primary)" stopOpacity={0.15} />
                                     <stop offset="95%" stopColor="var(--primary)" stopOpacity={0} />
                                 </linearGradient>
                             </defs>
                             <CartesianGrid strokeDasharray="3 3" vertical={false} stroke="var(--border-light)" />
-                            <XAxis dataKey="name" axisLine={false} tickLine={false} tick={{ fontSize: 12, fill: 'var(--text-secondary)' }} />
-                            <YAxis axisLine={false} tickLine={false} tick={{ fontSize: 12, fill: 'var(--text-secondary)' }} />
+                            <XAxis
+                                dataKey="name"
+                                axisLine={false}
+                                tickLine={false}
+                                tick={{ fontSize: 13, fill: 'var(--text-secondary)' }}
+                                dy={10} // Add spacing from the bottom axis
+                            />
+                            <YAxis
+                                axisLine={false}
+                                tickLine={false}
+                                tick={{ fontSize: 13, fill: 'var(--text-secondary)' }}
+                                dx={-10} // Add spacing from the left axis
+                            />
                             <Tooltip
                                 contentStyle={{
-                                    backgroundColor: 'rgba(20, 24, 30, 0.9)',
+                                    backgroundColor: 'var(--bg-card)',
                                     borderRadius: 'var(--radius-md)',
                                     border: '1px solid var(--border-light)',
-                                    boxShadow: 'var(--shadow-md)',
-                                    color: 'var(--text-primary)'
+                                    boxShadow: 'var(--shadow-lg)',
+                                    color: 'var(--text-primary)',
+                                    padding: '0.75rem 1rem'
                                 }}
-                                itemStyle={{ color: 'var(--primary)' }}
+                                itemStyle={{ color: 'var(--primary)', fontWeight: 600 }}
                             />
                             <Area
                                 type="monotone"
-                                dataKey="threat"
+                                dataKey="risk"
                                 stroke="var(--primary)"
-                                strokeWidth={3}
+                                strokeWidth={2}
                                 fillOpacity={1}
                                 fill="url(#colorRisk)"
                             />

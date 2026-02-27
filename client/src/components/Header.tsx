@@ -4,7 +4,6 @@ export function Header() {
     return (
         <header style={{
             backgroundColor: 'var(--bg-card)',
-            backdropFilter: 'blur(12px)',
             borderBottom: '1px solid var(--border-light)',
             boxShadow: 'var(--shadow-sm)',
             position: 'sticky',
@@ -14,7 +13,7 @@ export function Header() {
             <div className="container" style={{
                 display: 'flex',
                 alignItems: 'center',
-                height: '4rem'
+                height: '4.5rem' // Slightly taller header
             }}>
                 <div style={{
                     display: 'flex',
@@ -27,10 +26,9 @@ export function Header() {
                         fontSize: '1.25rem',
                         fontWeight: 600,
                         color: 'var(--text-primary)',
-                        textTransform: 'uppercase',
-                        letterSpacing: '1px'
+                        letterSpacing: '-0.025em' // Modern tight tracking
                     }}>
-                        Survey Corps Command Center
+                        AI Risk Analysis Dashboard
                     </h1>
                 </div>
             </div>

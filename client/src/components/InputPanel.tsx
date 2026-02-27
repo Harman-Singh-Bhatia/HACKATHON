@@ -40,23 +40,23 @@ export function InputPanel() {
     return (
         <Card>
             <CardHeader>
-                <CardTitle>Mission Deployment Interface</CardTitle>
+                <CardTitle>Enter Parameters</CardTitle>
             </CardHeader>
             <CardContent>
-                <form onSubmit={handleAnalyze} style={{ display: 'flex', flexDirection: 'column', gap: '1rem' }}>
+                <form onSubmit={handleAnalyze} style={{ display: 'flex', flexDirection: 'column', gap: '1.25rem' }}>
                     <div style={{ display: 'flex', flexDirection: 'column', gap: '0.5rem' }}>
                         <label style={{ fontSize: '0.875rem', fontWeight: 500, color: 'var(--text-secondary)' }}>
-                            Squad Leader / Regiment
+                            Text Parameter
                         </label>
                         <input
                             type="text"
-                            placeholder="e.g. Levi Ackerman / Special Operations"
-                            style={{ ...inputStyles, backgroundColor: 'rgba(0,0,0,0.2)', color: 'white' }}
+                            placeholder="Enter value"
+                            style={inputStyles}
                             value={textValue}
                             onChange={e => setTextValue(e.target.value)}
                             onFocus={e => {
                                 e.target.style.borderColor = 'var(--primary)';
-                                e.target.style.boxShadow = '0 0 0 3px rgba(153, 27, 27, 0.2)';
+                                e.target.style.boxShadow = '0 0 0 3px rgba(15, 23, 42, 0.1)';
                             }}
                             onBlur={e => {
                                 e.target.style.borderColor = 'var(--border-light)';
@@ -67,17 +67,17 @@ export function InputPanel() {
 
                     <div style={{ display: 'flex', flexDirection: 'column', gap: '0.5rem' }}>
                         <label style={{ fontSize: '0.875rem', fontWeight: 500, color: 'var(--text-secondary)' }}>
-                            Titans Spotted (Estimated Count)
+                            Numeric Parameter
                         </label>
                         <input
                             type="number"
-                            placeholder="Enter number of targets"
-                            style={{ ...inputStyles, backgroundColor: 'rgba(0,0,0,0.2)', color: 'white' }}
+                            placeholder="Enter numeric value"
+                            style={inputStyles}
                             value={numValue}
                             onChange={e => setNumValue(e.target.value)}
                             onFocus={e => {
                                 e.target.style.borderColor = 'var(--primary)';
-                                e.target.style.boxShadow = '0 0 0 3px rgba(153, 27, 27, 0.2)';
+                                e.target.style.boxShadow = '0 0 0 3px rgba(15, 23, 42, 0.1)';
                             }}
                             onBlur={e => {
                                 e.target.style.borderColor = 'var(--border-light)';
@@ -90,9 +90,9 @@ export function InputPanel() {
                         type="submit"
                         disabled={!textValue || !numValue || isAnalyzing}
                         style={{
-                            backgroundColor: (!textValue || !numValue) ? 'var(--text-muted)' : 'var(--primary)',
+                            backgroundColor: (!textValue || !numValue || isAnalyzing) ? 'var(--text-muted)' : 'var(--primary)',
                             color: 'white',
-                            padding: '0.75rem 1.5rem',
+                            padding: '0.875rem 1.5rem', // Slightly larger button
                             borderRadius: 'var(--radius-md)',
                             border: 'none',
                             fontWeight: 600,
@@ -100,18 +100,59 @@ export function InputPanel() {
                             display: 'flex',
                             alignItems: 'center',
                             justifyContent: 'center',
-                            gap: '0.5rem',
+                            gap: '0.75rem',
                             marginTop: '0.5rem',
-                            transition: 'background-color 0.2s',
-                            cursor: (!textValue || !numValue || isAnalyzing) ? 'not-allowed' : 'pointer'
+                            transition: 'all 0.2s ease',
+                            cursor: (!textValue || !numValue || isAnalyzing) ? 'not-allowed' : 'pointer',
+                            boxShadow: (!textValue || !numValue || isAnalyzing) ? 'none' : 'var(--shadow-sm)'
+                        }}
+                        onMouseEnter={e => {
+                            if (textValue && numValue && !isAnalyzing) {
+                                e.currentTarget.style.backgroundColor = 'var(--primary-hover)';
+                                e.currentTarget.style.transform = 'translateY(-1px)';
+                            }
+                        }}
+                        onMouseLeave={e => {
+                            if (textValue && numValue && !isAnalyzing) {
+                                e.currentTarget.style.backgroundColor = 'var(--primary)';
+                                e.currentTarget.style.transform = 'translateY(0)';
+                            }
+                        }}
+                        onMouseDown={e => {
+                            if (textValue && numValue && !isAnalyzing) {
+                                e.currentTarget.style.transform = 'translateY(1px)';
+                            }
+                        }}
+                        onMouseUp={e => {
+                            if (textValue && numValue && !isAnalyzing) {
+                                e.currentTarget.style.transform = 'translateY(-1px)';
+                            }
                         }}
                     >
-                        {isAnalyzing ? 'Deploying...' : (
+                        {isAnalyzing ? (
+                            <span style={{ display: 'flex', alignItems: 'center', gap: '0.5rem' }}>
+                                <div style={{
+                                    width: '16px',
+                                    height: '16px',
+                                    border: '2px solid rgba(255,255,255,0.3)',
+                                    borderTopColor: 'white',
+                                    borderRadius: '50%',
+                                    animation: 'spin 1s linear infinite'
+                                }} />
+                                Analyzing...
+                            </span>
+                        ) : (
                             <>
-                                Deploy Squad <Send size={18} />
+                                Analyze <Send size={18} />
                             </>
                         )}
                     </button>
+                    {/* Add animation styles inline for simplicity during hackathon */}
+                    <style>{`
+                        @keyframes spin {
+                            to { transform: rotate(360deg); }
+                        }
+                    `}</style>
                 </form>
             </CardContent>
         </Card>
