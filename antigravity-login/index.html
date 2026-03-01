@@ -1,76 +1,50 @@
 <!DOCTYPE html>
 <html lang="en">
-
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>CARBONSPHERE Login</title>
+    <title>Futuristic Anti-Gravity Login</title>
     <!-- Link to our external CSS file -->
-    <link rel="stylesheet" href="./login-style.css">
+    <link rel="stylesheet" href="./style.css">
     <!-- Google Fonts for futuristic typography -->
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link
-        href="https://fonts.googleapis.com/css2?family=Orbitron:wght@400;500;700&family=Inter:wght@300;400;600&display=swap"
-        rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@400;500;700&family=Inter:wght@300;400;600&display=swap" rel="stylesheet">
 </head>
-
 <body>
     <!-- Background Layers -->
-    <div class="ai-bg-overlay"></div>
     <div class="stars-container"></div>
     <div class="particles-container"></div>
-
+    
     <!-- Login Interface -->
     <div class="login-wrapper">
         <div class="login-panel">
             <!-- Neon background glows -->
             <div class="neon-ring ring-1"></div>
             <div class="neon-ring ring-2"></div>
-
+            
             <!-- Headers -->
-            <h1 class="login-title" style="display: flex; align-items: center; justify-content: center; gap: 0.5rem;">
-                <svg width="32" height="32" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"
-                    stroke-linecap="round" stroke-linejoin="round">
-                    <circle cx="12" cy="12" r="10"></circle>
-                    <path
-                        d="M12 2a15.3 15.3 0 0 1 4 10 15.3 15.3 0 0 1-4 10 15.3 15.3 0 0 1-4-10 15.3 15.3 0 0 1 4-10z">
-                    </path>
-                    <path d="M2 12h20"></path>
-                </svg>
-                CARBONSPHERE
-            </h1>
-            <p class="login-subtitle">Authenticate to access the Renewable Hub</p>
-
-            <div class="auth-tabs">
-                <button type="button" class="auth-tab active" id="tab-login">LOGIN</button>
-                <button type="button" class="auth-tab" id="tab-signup">SIGN UP</button>
-            </div>
-
+            <h1 class="login-title">SYSTEM_LOGIN</h1>
+            <p class="login-subtitle">Authenticate to access anti-gravity protocols</p>
+            
             <!-- Form -->
             <form id="login-form">
-                <div class="input-group" id="name-group" style="display: none;">
-                    <label for="name">FULL NAME</label>
-                    <input type="text" id="name" autocomplete="off" placeholder="Commander Shepard">
-                    <div class="glow-line"></div>
-                </div>
-
                 <div class="input-group">
                     <label for="email">IDENTITY (EMAIL)</label>
                     <input type="email" id="email" required autocomplete="off" placeholder="commander@station.x">
                     <div class="glow-line"></div>
                 </div>
-
+                
                 <div class="input-group">
                     <label for="password">ACCESS CODE</label>
                     <input type="password" id="password" required placeholder="••••••••">
                     <div class="glow-line"></div>
                 </div>
-
+                
                 <button type="submit" class="login-btn">
                     <span>INITIALIZE</span>
                 </button>
-
+                
                 <a href="#" class="forgot-link">Recover Access Code?</a>
             </form>
         </div>
@@ -79,5 +53,4 @@
     <!-- Link to our external JS file -->
     <script type="module" src="./main.js"></script>
 </body>
-
 </html>

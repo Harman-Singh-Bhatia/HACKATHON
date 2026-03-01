@@ -1,0 +1,321 @@
+:root {
+  /* Futuristic Green Hackathon Palette - Toned down */
+  --neon-blue: #00cc52;
+  /* Dimmer Neon Green */
+  --neon-purple: #1e8449;
+  /* Darker Forest Green */
+  --bg-dark: #02040a;
+  --panel-bg: rgba(5, 20, 10, 0.6);
+  /* Darker, slightly green tinted panel */
+  --panel-border: rgba(0, 255, 102, 0.2);
+  --text-primary: #d0e0d8;
+  --text-muted: #5a7a68;
+  --input-bg: rgba(0, 0, 0, 0.5);
+}
+
+* {
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+}
+
+body {
+  font-family: 'Inter', sans-serif;
+  background-color: var(--bg-dark);
+  color: var(--text-primary);
+  /* Full screen view */
+  height: 100vh;
+  width: 100vw;
+  overflow: hidden;
+  /* Centering the login panel */
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  position: relative;
+  /* Adds 3D perspective for mouse movement */
+  perspective: 1000px;
+}
+
+/* --- Background Effects --- */
+.stars-container,
+.particles-container {
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  pointer-events: none;
+  /* Let clicks pass through */
+}
+
+.stars-container {
+  z-index: 0;
+}
+
+.particles-container {
+  z-index: 1;
+}
+
+.ai-bg-overlay {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background-image: url('./ai-bg.png');
+  background-size: cover;
+  background-position: center;
+  opacity: 0.15;
+  /* Restored to slightly higher for the new darker image */
+  z-index: 0;
+  pointer-events: none;
+}
+
+/* --- Login Panel Anti-Gravity float --- */
+.login-wrapper {
+  position: relative;
+  z-index: 10;
+  /* Smooth continuous floating animation */
+  animation: float 6s ease-in-out infinite;
+  transform-style: preserve-3d;
+  transition: transform 0.5s ease-out;
+  /* For mouse movement reset */
+}
+
+@keyframes float {
+  0% {
+    transform: translateY(0px);
+  }
+
+  50% {
+    transform: translateY(-15px);
+  }
+
+  100% {
+    transform: translateY(0px);
+  }
+}
+
+/* --- Glassmorphism Effect --- */
+.login-panel {
+  background: var(--panel-bg);
+  backdrop-filter: blur(20px);
+  -webkit-backdrop-filter: blur(20px);
+  border: 1px solid var(--panel-border);
+  border-radius: 24px;
+  padding: 3rem 2.5rem;
+  width: 400px;
+  max-width: 90vw;
+  box-shadow: 0 0 40px rgba(0, 240, 255, 0.1), inset 0 0 20px rgba(138, 43, 226, 0.1);
+  position: relative;
+  overflow: hidden;
+  transition: transform 0.1s;
+  /* Quick response to mouse move */
+}
+
+/* Neon accents behind the panel */
+.neon-ring {
+  position: absolute;
+  border-radius: 50%;
+  filter: blur(40px);
+  z-index: -1;
+  opacity: 0.5;
+}
+
+.ring-1 {
+  width: 150px;
+  height: 150px;
+  background: var(--neon-purple);
+  top: -50px;
+  left: -50px;
+}
+
+.ring-2 {
+  width: 150px;
+  height: 150px;
+  background: var(--neon-blue);
+  bottom: -50px;
+  right: -50px;
+}
+
+/* --- Typography --- */
+.login-title {
+  font-family: 'Orbitron', sans-serif;
+  font-size: 1.8rem;
+  font-weight: 700;
+  text-align: center;
+  margin-bottom: 0.5rem;
+  letter-spacing: 2px;
+  /* Gradient Text */
+  background: linear-gradient(90deg, var(--neon-blue), var(--neon-purple));
+  -webkit-background-clip: text;
+  background-clip: text;
+  -webkit-text-fill-color: transparent;
+  color: transparent;
+  /* Fallback */
+}
+
+.login-subtitle {
+  font-size: 0.85rem;
+  color: var(--text-muted);
+  text-align: center;
+  margin-bottom: 2.5rem;
+  letter-spacing: 0.5px;
+}
+
+/* --- Auth Tabs --- */
+.auth-tabs {
+  display: flex;
+  justify-content: center;
+  gap: 1rem;
+  margin-bottom: 2rem;
+}
+
+.auth-tab {
+  background: transparent;
+  border: none;
+  font-family: 'Orbitron', sans-serif;
+  font-size: 0.85rem;
+  color: var(--text-muted);
+  cursor: pointer;
+  padding: 0.5rem 1rem;
+  border-bottom: 2px solid transparent;
+  transition: all 0.3s ease;
+  letter-spacing: 1px;
+}
+
+.auth-tab.active,
+.auth-tab:hover {
+  color: var(--neon-blue);
+  border-bottom: 2px solid var(--neon-blue);
+  text-shadow: 0 0 8px var(--neon-blue);
+}
+
+/* --- Form Inputs --- */
+.input-group {
+  margin-bottom: 1.5rem;
+  position: relative;
+}
+
+.input-group label {
+  display: block;
+  font-family: 'Orbitron', sans-serif;
+  font-size: 0.65rem;
+  color: var(--text-muted);
+  margin-bottom: 0.5rem;
+  letter-spacing: 1px;
+}
+
+.input-group input {
+  width: 100%;
+  background: var(--input-bg);
+  border: 1px solid var(--panel-border);
+  border-radius: 12px;
+  padding: 1rem 1.2rem;
+  color: #fff;
+  font-family: 'Inter', sans-serif;
+  font-size: 0.95rem;
+  outline: none;
+  transition: all 0.3s ease;
+}
+
+/* Input Glow on Focus */
+.input-group input:focus {
+  border-color: rgba(0, 240, 255, 0.5);
+  box-shadow: 0 0 15px rgba(0, 240, 255, 0.2), inset 0 0 10px rgba(0, 240, 255, 0.1);
+  background: rgba(0, 0, 0, 0.6);
+}
+
+/* Animated bottom line on focus */
+.glow-line {
+  position: absolute;
+  bottom: 0;
+  left: 5%;
+  width: 90%;
+  height: 2px;
+  background: linear-gradient(90deg, transparent, var(--neon-blue), transparent);
+  transform: scaleX(0);
+  transition: transform 0.4s ease;
+}
+
+.input-group input:focus+.glow-line {
+  transform: scaleX(1);
+}
+
+/* --- Login Button --- */
+.login-btn {
+  width: 100%;
+  padding: 1rem;
+  margin-top: 1rem;
+  background: linear-gradient(45deg, var(--neon-purple), #008f39, var(--neon-blue));
+  background-size: 200% auto;
+  border: 1px solid var(--neon-purple);
+  border-radius: 12px;
+  color: #fff;
+  font-family: 'Orbitron', sans-serif;
+  font-weight: 700;
+  font-size: 0.9rem;
+  letter-spacing: 2px;
+  cursor: pointer;
+  position: relative;
+  overflow: hidden;
+  transition: all 0.4s ease;
+  z-index: 1;
+}
+
+/* Inner dark background that fades on hover */
+.login-btn::before {
+  content: '';
+  position: absolute;
+  top: 2px;
+  left: 2px;
+  right: 2px;
+  bottom: 2px;
+  background: rgba(10, 15, 30, 0.9);
+  border-radius: 10px;
+  z-index: -1;
+  transition: opacity 0.3s ease;
+}
+
+.login-btn:hover::before {
+  opacity: 0;
+  /* Show full gradient */
+}
+
+.login-btn:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 10px 20px rgba(138, 43, 226, 0.4), 0 0 30px rgba(0, 240, 255, 0.4);
+  background-position: right center;
+}
+
+.login-btn:active {
+  transform: translateY(1px);
+}
+
+/* --- Forgot Password Link --- */
+.forgot-link {
+  display: block;
+  text-align: center;
+  margin-top: 1.5rem;
+  color: var(--text-muted);
+  font-size: 0.8rem;
+  text-decoration: none;
+  transition: color 0.3s ease, text-shadow 0.3s ease;
+}
+
+.forgot-link:hover {
+  color: var(--neon-blue);
+  text-shadow: 0 0 8px var(--neon-blue);
+}
+
+.login-wrapper,
+.login-panel,
+.login-btn {
+  pointer-events: auto;
+  position: relative;
+  z-index: 10;
+}
+
+.login-btn::before {
+  pointer-events: none;
+}
