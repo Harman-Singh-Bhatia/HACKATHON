@@ -93,3 +93,12 @@ def match_energy(req: MatchRequest):
     matches.sort(key=lambda x: x["price_per_unit"])
 
     return {"matches": matches[:5]}  # top 5
+    import os
+
+if __name__ == "__main__":
+    import uvicorn
+    uvicorn.run(
+        "main:app",
+        host="0.0.0.0",
+        port=int(os.environ.get("PORT", 8000)),
+    )

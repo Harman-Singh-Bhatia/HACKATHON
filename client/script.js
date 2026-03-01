@@ -2,11 +2,12 @@
 // GreenGrid Buyer Match Logic
 // ===============================
 
-const API_BASE = "http://127.0.0.1:8000";
+const API_BASE = import.meta.env.VITE_API_BASE || "http://127.0.0.1:8000";
 
 // Wait until DOM ready
 document.addEventListener("DOMContentLoaded", () => {
     setupBuyerMatch();
+    setupSellerForm();
 });
 
 // ===============================
@@ -60,7 +61,7 @@ async function handleMatchClick() {
         renderMatches(data.matches || []);
     } catch (err) {
         console.error("Match API error:", err);
-        showToast("Error connecting to energy network");
+        showToast("Network Error: Could not connect to API", "error");
     } finally {
         // Restore button state
         if (matchBtn) {
@@ -114,7 +115,7 @@ function renderMatches(matches) {
       </div>
 
       <div class="listing-action">
-        <button class="purchase-btn action-btn">
+        <button class="purchase-btn action-btn" onclick="handleConnectClick('${m.seller_name}')">
           Connect
         </button>
       </div>
@@ -128,9 +129,124 @@ function renderMatches(matches) {
 // Simple Toast (fallback safe)
 // ===============================
 
-function showToast(msg) {
+function showToast(msg, type = "info") {
     console.log("TOAST:", msg);
+
+    // Create toast container if it doesn't exist
+    let container = document.getElementById("toast-container");
+    if (!container) {
+        container = document.createElement("div");
+        container.id = "toast-container";
+        // Basic styling for a fixed toast in the top right
+        container.style.position = "fixed";
+        container.style.top = "20px";
+        container.style.right = "20px";
+        container.style.zIndex = "9999";
+        container.style.display = "flex";
+        container.style.flexDirection = "column";
+        container.style.gap = "10px";
+        document.body.appendChild(container);
+    }
+
+    // Create toast element
+    const toast = document.createElement("div");
+    toast.className = `toast ${type}`;
+
+    // Style based on type
+    const bgColor = type === "error" ? "rgba(239, 68, 68, 0.9)" : "rgba(22, 163, 74, 0.9)";
+    toast.style.background = bgColor;
+    toast.style.color = "white";
+    toast.style.padding = "12px 24px";
+    toast.style.borderRadius = "8px";
+    toast.style.boxShadow = "0 4px 12px rgba(0,0,0,0.15)";
+    toast.style.fontSize = "0.9rem";
+    toast.style.fontWeight = "500";
+    toast.style.opacity = "0";
+    toast.style.transform = "translateY(-20px)";
+    toast.style.transition = "all 0.3s ease";
+
+    toast.innerText = msg;
+    container.appendChild(toast);
+
+    // Animate in
+    requestAnimationFrame(() => {
+        toast.style.opacity = "1";
+        toast.style.transform = "translateY(0)";
+    });
+
+    // Remove after 3 seconds
+    setTimeout(() => {
+        toast.style.opacity = "0";
+        toast.style.transform = "translateY(-20px)";
+        setTimeout(() => toast.remove(), 300);
+    }, 3000);
 }
+
+// ===============================
+// Seller Registration Logic
+// ===============================
+
+function setupSellerForm() {
+    const sellerForm = document.getElementById("seller-form");
+    if (!sellerForm) return;
+
+    sellerForm.addEventListener("submit", async (e) => {
+        e.preventDefault();
+
+        const energyType = document.getElementById("energy-type").value;
+        const availableKwh = parseInt(document.getElementById("energy-amount").value, 10);
+        const pricePerUnit = parseFloat(document.getElementById("energy-price").value);
+        const city = document.getElementById("city-selector")?.value || "mumbai";
+
+        // Dummy seller name for the prototype
+        const sellerName = "CarbonSphere User";
+
+        const submitBtn = sellerForm.querySelector('button[type="submit"]');
+        const originalText = submitBtn.innerText;
+
+        try {
+            submitBtn.disabled = true;
+            submitBtn.innerText = "Listing...";
+
+            const res = await fetch(`${API_BASE}/listings/create`, {
+                method: "POST",
+                headers: { "Content-Type": "application/json" },
+                body: JSON.stringify({
+                    seller_name: sellerName,
+                    energy_type: energyType.toLowerCase(),
+                    city: city,
+                    price_per_unit: pricePerUnit,
+                    available_kwh: availableKwh
+                })
+            });
+
+            if (!res.ok) throw new Error("Server rejected the listing");
+
+            const data = await res.json();
+            console.log("Listing Created:", data);
+
+            showToast("Energy listed successfully!", "success");
+            sellerForm.reset();
+
+        } catch (err) {
+            console.error("Failed to create listing:", err);
+            showToast("Network Error: Could not connect to API", "error");
+        } finally {
+            submitBtn.disabled = false;
+            submitBtn.innerText = originalText;
+        }
+    });
+}
+
+// ===============================
+// Buyer Connection Logic
+// ===============================
+
+// Make it global so the inline onclick can find it
+window.handleConnectClick = function (sellerName) {
+    showToast(`Initiating connection with ${sellerName}...`, "success");
+    // In a real app, this might open a chat window or direct to a payment flow
+};
 
 // ===============================
 // Carbon Investment Portfolio Logic
@@ -271,7 +387,7 @@ if (matchBtn) {
         const energyType = document.getElementById("energy-type-buyer").value;
 
         try {
-            const res = await fetch("http://127.0.0.1:8000/match", {
+            const res = await fetch(`${API_BASE}/match`, {
                 method: "POST",
                 headers: { "Content-Type": "application/json" },
                 body: JSON.stringify({
@@ -336,7 +452,7 @@ function renderListings(matches) {
       </div>
 
       <div class="listing-action">
-        <button class="purchase-btn action-btn">
+        <button class="purchase-btn action-btn" onclick="handleConnectClick('${m.seller_name}')">
           Connect
         </button>
       </div>
